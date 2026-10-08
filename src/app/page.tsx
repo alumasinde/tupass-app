@@ -1,26 +1,33 @@
-import { StatusCard } from "@/components/common/status-card";
-import { appConfig } from "@/config/app";
+import { getTenantContext } from "@/lib/tenant/request";
 
-export default function HomePage() {
-  return (
-    <main className="shell">
-      <section className="hero">
-        <div className="eyebrow">Phase 1 · Foundation</div>
-        <h1>{appConfig.name}</h1>
-        <p>
-          A production-oriented foundation for a configurable, multi-tenant gate pass management platform.
-        </p>
-        <div className="hero__actions">
-          <a className="button button--primary" href="/api/health">System health</a>
-        </div>
-      </section>
+export default async function HomePage() {
+  try {
+    const tenant = await getTenantContext();
 
-      <section className="status-grid" aria-label="Foundation status">
-        <StatusCard label="Framework" value="Next.js" description="App Router + TypeScript" />
-        <StatusCard label="Database" value="MySQL" description="Prisma ORM foundation" />
-        <StatusCard label="Architecture" value="Tenant-ready" description="Organization boundary established" />
-        <StatusCard label="Styling" value="Dedicated" description="All application styles live in src/styles" />
-      </section>
-    </main>
-  );
+    return (
+      <main className="app-shell">
+        <section className="card">
+          <p className="eyebrow">TuPass • Phase 2</p>
+          <h1>{tenant.organizationName}</h1>
+          <p className="muted">Tenant resolution is active for this organization.</p>
+          <div className="tenant-meta">
+            <span>Slug</span><strong>{tenant.organizationSlug}</strong>
+            <span>Host</span><strong>{tenant.hostname}</strong>
+            <span>Organization ID</span><strong>{tenant.organizationId.toString()}</strong>
+          </div>
+        </section>
+      </main>
+    );
+  } catch {
+    return (
+      <main className="app-shell">
+        <section className="card">
+          <p className="eyebrow">TuPass • Platform</p>
+          <h1>Gate Pass Management</h1>
+          <p className="muted">This hostname is not mapped to an active organization.</p>
+          <p className="hint">Use a configured tenant hostname such as your local tenant domain.</p>
+        </section>
+      </main>
+    );
+  }
 }

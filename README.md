@@ -133,3 +133,9 @@ npm run build
 ## Phase 2 preparation
 
 Phase 2 will add tenant resolution and organization-aware request context. The existing organization model and configuration structure are intentionally minimal so that this can be introduced without moving business code.
+
+## Phase 2
+
+Phase 2 adds multi-tenant hostname resolution. See `PHASE-2.md`.
+
+Tenant domains are stored in `organization_domains`; application code does not hard-code tenant names or domains.

@@ -1,7 +1,7 @@
-CREATE DATABASE IF NOT EXISTS tupass_local
+CREATE DATABASE IF NOT EXISTS gatepass
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-CREATE USER IF NOT EXISTS 'alumasinde'@'localhost' IDENTIFIED BY '21082108';
-GRANT ALL PRIVILEGES ON tupass_local.* TO 'alumasinde'@'localhost';
+CREATE USER IF NOT EXISTS 'gatepass'@'localhost' IDENTIFIED BY 'change-me';
+GRANT ALL PRIVILEGES ON gatepass.* TO 'gatepass'@'localhost';
 FLUSH PRIVILEGES;
