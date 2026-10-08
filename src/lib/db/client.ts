@@ -9,12 +9,14 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function createPrismaClient() {
+  const url = new URL(env.DATABASE_URL);
+
   const adapter = new PrismaMariaDb({
-    host: env.DATABASE_HOST,
-    port: env.DATABASE_PORT,
-    user: env.DATABASE_USER,
-    password: env.DATABASE_PASSWORD,
-    database: env.DATABASE_NAME,
+    host: url.hostname,
+    port: url.port ? Number(url.port) : 3306,
+    user: decodeURIComponent(url.username),
+    password: decodeURIComponent(url.password),
+    database: decodeURIComponent(url.pathname.replace(/^\//, "")),
     connectionLimit: 10,
   });
 

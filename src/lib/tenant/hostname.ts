@@ -1,7 +1,17 @@
 import { tenantConfig } from "@/config/tenant";
 
+/** Lower-cases, strips the port and any trailing dot. IPv6 literals are preserved. */
 export function normalizeHostname(value: string): string {
-  return value.trim().toLowerCase().split(":")[0].replace(/\.$/, "");
+  let host = value.trim().toLowerCase();
+
+  if (host.startsWith("[")) {
+    const end = host.indexOf("]");
+    return end === -1 ? host : host.slice(0, end + 1);
+  }
+
+  const colon = host.indexOf(":");
+  if (colon !== -1) host = host.slice(0, colon);
+  return host.replace(/\.+$/, "");
 }
 
 export function isPlatformHostname(hostname: string): boolean {

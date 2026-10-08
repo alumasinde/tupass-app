@@ -1,6 +1,7 @@
 import "server-only";
 
-import { prisma } from "@/lib/db/prisma";
+import { prisma } from "@/lib/db/client";
+import { normalizeHostname } from "@/lib/tenant/hostname";
 
 export async function getOrganizationBySlug(slug: string) {
   return prisma.organization.findFirst({
@@ -12,7 +13,7 @@ export async function getOrganizationBySlug(slug: string) {
 export async function getOrganizationByDomain(hostname: string) {
   return prisma.organizationDomain.findFirst({
     where: {
-      hostname,
+      hostname: normalizeHostname(hostname),
       isActive: true,
       organization: { isActive: true },
     },

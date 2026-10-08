@@ -1,10 +1,15 @@
-import { NextResponse } from "next/server";
 import { getTenantContext, TenantNotFoundError } from "@/lib/tenant/request";
+import { AppError } from "@/lib/errors/app-error";
+import { toErrorResponse } from "@/lib/errors/http";
+import { logger, serializeError } from "@/lib/logger";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
     const tenant = await getTenantContext();
-    return NextResponse.json({
+    return Response.json({
       data: {
         organizationId: tenant.organizationId.toString(),
         organizationSlug: tenant.organizationSlug,
@@ -14,8 +19,9 @@ export async function GET() {
     });
   } catch (error) {
     if (error instanceof TenantNotFoundError) {
-      return NextResponse.json({ error: "Tenant not found" }, { status: 404 });
+      return toErrorResponse(new AppError("Tenant not found.", "TENANT_NOT_FOUND", 404));
     }
-    return NextResponse.json({ error: "Unable to resolve tenant" }, { status: 500 });
+    logger.error("Tenant resolution failed", { error: serializeError(error) });
+    return toErrorResponse(error);
   }
 }

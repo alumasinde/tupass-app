@@ -1,11 +1,11 @@
-# GatePass Phase 1 — Implementation Notes
+# TuPass Phase 1 — Implementation Notes
 
 ## Included
 
 - Next.js 16 App Router foundation
 - TypeScript strict configuration
 - Prisma ORM 7 with MySQL/MariaDB adapter
-- Versioned migration `0001_phase1_foundation`
+- Versioned migration `0001_foundation`
 - `organizations` tenant boundary
 - `users` identity model with `first_name` and `last_name`
 - `identification_types` configuration table

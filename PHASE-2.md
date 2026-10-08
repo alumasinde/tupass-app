@@ -26,7 +26,7 @@ npm run db:migrate
 3. Seed the demo organization/domain:
 
 ```powershell
-mysql -u root -p tupass < database/phase2-seed.sql
+mysql -u tupass -p tupass < database/phase2-seed.sql
 ```
 
 4. Ensure `.env` contains:

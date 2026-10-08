@@ -1,8 +1,8 @@
-# GatePass — Phase 1 Foundation
+# TuPass — Gate Pass Management SaaS
 
 Production-oriented foundation for a multi-tenant Gate Pass Management SaaS built with Next.js, TypeScript, MySQL and Prisma ORM.
 
-## Phase 1 scope
+## Foundation scope (Phase 1)
 
 - Next.js App Router foundation
 - TypeScript strict mode
@@ -33,9 +33,9 @@ Prisma ORM 7 requires a database driver adapter. This project uses the Prisma Ma
 Using MySQL CLI:
 
 ```sql
-CREATE DATABASE gatepass CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'gatepass'@'localhost' IDENTIFIED BY 'change-me';
-GRANT ALL PRIVILEGES ON gatepass.* TO 'gatepass'@'localhost';
+CREATE DATABASE tupass CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'tupass'@'localhost' IDENTIFIED BY 'change-me';
+GRANT ALL PRIVILEGES ON tupass.* TO 'tupass'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -49,17 +49,14 @@ Copy:
 .env.example -> .env
 ```
 
-Then update the MySQL credentials.
+Then update the MySQL credentials. `DATABASE_URL` is the only database setting; host, port, user and password are parsed from it.
 
 Example:
 
 ```env
-DATABASE_URL=mysql://gatepass:change-me@127.0.0.1:3306/gatepass
-DATABASE_HOST=127.0.0.1
-DATABASE_PORT=3306
-DATABASE_USER=gatepass
-DATABASE_PASSWORD=change-me
-DATABASE_NAME=gatepass
+DATABASE_URL=mysql://tupass:change-me@127.0.0.1:3306/tupass
+APP_BASE_DOMAIN=tupass.localhost
+TENANT_HOST_MODE=both
 ```
 
 Do not commit `.env`.
@@ -114,6 +111,7 @@ http://localhost:3000/api/health
 ```bash
 npm run typecheck
 npm run lint
+npm test
 npm run build
 ```
 
@@ -129,10 +127,6 @@ npm run build
 8. Database access belongs behind server-side infrastructure/services.
 9. Do not expose database credentials or internal errors to clients.
 10. Every later tenant-scoped query must include an organization boundary enforced by the server.
-
-## Phase 2 preparation
-
-Phase 2 will add tenant resolution and organization-aware request context. The existing organization model and configuration structure are intentionally minimal so that this can be introduced without moving business code.
 
 ## Phase 2
 
